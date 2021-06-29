@@ -3,17 +3,19 @@ import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import Loader from "react-loader-spinner";
 
-import { Container, BannerStyle, SignUpContainer, Input, Button, UserAlert } from './Styles';
+import { Container, BannerStyle, SignUpContainer, Input, Button, UserAlert, StyledInput } from './Styles';
 import Logo from '../../assets/Logo.png';
 
 export default function SignUp() {
 
     const history = useHistory();
-    const [userSignUp, setUserSignUp] = useState({ name: "", email: "",  password: "", confirmPassword: "", cpf: "", rg: "", city: "", state: "" });
-    const { name, email, password, confirmPassword, cpf, rg, city, state } = userSignUp;
+    const [userSignUp, setUserSignUp] = useState({ name: "", email: "",  password: "", confirmPassword: "", cpf: "", rg: "", address: "", city: "", state: "" });
+    const { name, email, password, confirmPassword, cpf, rg, address, city, state } = userSignUp;
     const [buttonStatus, setButtonStatus] = useState({ status:"Cadastrar", userAlert: "", isDisabled: false});
     const { status, userAlert, isDisabled } = buttonStatus;
     const loading = <Loader type="ThreeDots" color="#FFFFFF" height={19} width={50}/>
+
+    console.log(userSignUp);
 
     function handleOnChange(e, objKey) {
         setUserSignUp({...userSignUp, [objKey]: e.target.value})
@@ -31,10 +33,10 @@ export default function SignUp() {
         } else if(password!==confirmPassword) {
             setButtonStatus({...buttonStatus, userAlert: <UserAlert>As senhas precisam ser iguais, preencha novamente.</UserAlert>});
             return;
-        } else if(cpf.length < 11 || rg.length < 9) {
+        } else if(cpf.length !== 14 || rg.length !== 12) {
             setButtonStatus({...buttonStatus, userAlert: <UserAlert>Por favor, preencha corretamente seus documentos</UserAlert>});
             return;
-        } else if(email.length || city.length || state.length) {
+        } else if(!(email.length && address.length && city.length && state.length)) {
             setButtonStatus({...buttonStatus, userAlert: <UserAlert>Por favor, preencha todos os campos</UserAlert>});
             return;
         }
@@ -46,7 +48,7 @@ export default function SignUp() {
         request.catch(() => {
             setButtonStatus({status:"Cadastrar", userAlert: <UserAlert>Por favor, verifique os dados e tente novamente.</UserAlert>, isDisabled: false});
         })
-        setUserSignUp({ name: "", email: "",  password: "", confirmPassword: "", cpf: "", rg: "", city: "", state: "" });
+        setUserSignUp({ name: "", email: "",  password: "", confirmPassword: "", cpf: "", rg: "", address: "", city: "", state: "" });
     }
 
     return(
@@ -58,10 +60,11 @@ export default function SignUp() {
                 <form onSubmit={handleSignUpSubmit}>
                     <Input type="text" placeholder="Nome" value={name} disabled={isDisabled} onChange={e => handleOnChange(e, "name")} />
                     <Input type="text" placeholder="Email" value={email} disabled={isDisabled} onChange={e => handleOnChange(e, "email")}/>
-                    <Input type="text" placeholder="Senha" value={password} disabled={isDisabled} onChange={e => handleOnChange(e, "password")} />
-                    <Input type="text" placeholder="Confirme a Senha" value={confirmPassword} disabled={isDisabled} onChange={e => handleOnChange(e, "confirmPassword")} />
-                    <Input type="text" placeholder="CPF" value={cpf} disabled={isDisabled} onChange={e => handleOnChange(e, "cpf")} />
-                    <Input type="text" placeholder="RG" value={rg} disabled={isDisabled} onChange={e => handleOnChange(e, "rg")} />
+                    <Input type="password" placeholder="Senha" value={password} disabled={isDisabled} onChange={e => handleOnChange(e, "password")} />
+                    <Input type="password" placeholder="Confirme a Senha" value={confirmPassword} disabled={isDisabled} onChange={e => handleOnChange(e, "confirmPassword")} />
+                    <StyledInput type="input" placeholder="CPF" value={cpf} disabled={isDisabled} format={'###.###.###-##'} onChange={e => handleOnChange(e, "cpf")} />
+                    <StyledInput type="input" placeholder="RG" value={rg} disabled={isDisabled} format={'##.###.###-#'} onChange={e => handleOnChange(e, "rg")} />
+                    <Input type="text" placeholder="Endereco" value={address} disabled={isDisabled} onChange={e => handleOnChange(e, "address")} />
                     <Input type="text" placeholder="Cidade" value={city} disabled={isDisabled} onChange={e => handleOnChange(e, "city")} />
                     <Input type="text" placeholder="Estado" value={state} disabled={isDisabled} onChange={e => handleOnChange(e, "state")} />
                     <Button type="submit" >{status}</Button>

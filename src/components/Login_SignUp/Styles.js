@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import NumberFormat from 'react-number-format';
 
 const Container = styled.div`
 display: flex;
@@ -85,6 +85,23 @@ font-family: 'Raleway', sans-serif;
 }
 `;
 
+const StyledInput = styled(NumberFormat)`
+display: block;
+width: 70%;
+height: 45px;
+border: 1px solid #D5D5D5;
+border-radius: 5px;
+margin: 6px 0;
+font-size: 15px;
+color: #000;
+background-color: ${props => props.disabled ? '#F2F2F2' : '#FFFFFF'};
+font-family: 'Raleway', sans-serif;
+::placeholder {
+    color: #000;
+    opacity: 0.5
+}
+`;
+
 const Button = styled.button`
     width: 50%;
     height: 45px;
@@ -106,5 +123,6 @@ export{
     SignUpContainer,
     Input,
     Button,
-    UserAlert
+    UserAlert,
+    StyledInput
 }
