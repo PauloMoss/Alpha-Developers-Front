@@ -58,6 +58,15 @@ a {
     color: inherit;
 }
 
+input{
+	font-family: sans-serif;
+	padding: 0 10px;
+}
+
+input:focus {
+    outline-width: 0;
+}
+
 * {
     box-sizing: border-box;
 }
