@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Loader from "react-loader-spinner";
 
@@ -9,6 +9,7 @@ import Logo from '../../assets/Logo.png';
 export default function SignUp() {
 
     const history = useHistory();
+    const location = useLocation();
     const [userSignUp, setUserSignUp] = useState({ name: "", email: "",  password: "", confirmPassword: "", cpf: "", rg: "", address: "", city: "", state: "" });
     const { name, email, password, confirmPassword, cpf, rg, address, city, state } = userSignUp;
     const [buttonStatus, setButtonStatus] = useState({ status:"Cadastrar", userAlert: "", isDisabled: false});
@@ -53,7 +54,7 @@ export default function SignUp() {
 
     return(
         <Container>
-            <BannerStyle>
+            <BannerStyle location={location.pathname} >
                 <img src={Logo} alt="Alpha Logo"/>
             </BannerStyle>
             <SignUpContainer>

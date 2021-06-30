@@ -4,6 +4,11 @@ import NumberFormat from 'react-number-format';
 const Container = styled.div`
 display: flex;
 height: 100vh;
+
+@media (max-width: 600px) {
+        width: 100%;
+        flex-direction: column;
+    }
 `;
 
 const BannerStyle = styled.div`
@@ -31,6 +36,7 @@ const BannerStyle = styled.div`
         width: 100%;
         padding: 20px;
         text-align: center;
+        display: ${props => props.location === "/sign-up" ? 'none' : 'block'};
 
         h1 {
             font-size: 76px;
@@ -48,24 +54,36 @@ const SignUpContainer = styled.div`
     justify-content: center;
     width: 40%;
 
-            form {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                width: 100%;
-            }
-            button {
-                margin-top: 10px;
-                margin-bottom: 25px;
-                border: none;
-            }
-            span {
-                color:#FFFFFF;
-            }
-            div {
-                font-size: 14px;
-            }
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    button {
+        margin-top: 10px;
+        margin-bottom: 25px;
+        border: none;
+    }
+    span {
+        color:#FFFFFF;
+    }
+    span:hover {
+        color: rgba(250, 250, 250, 0.8)
+    }
+    div {
+        width: 70%;
+        margin: 5px 0;
+        font-size: 14px;
+    }
+    @media (max-width: 600px) {
+        width: 100%;
+        margin: 20px auto;
+        form {
+            margin-top: 40px;
+        }
+    }
 `;
 
 const Input = styled.input`
@@ -103,12 +121,19 @@ font-family: 'Raleway', sans-serif;
 `;
 
 const Button = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 50%;
     height: 45px;
     background: #A375FC;
     border-radius: 5px;
     color: #FFFFFF;
     font-size: 20px;
+    cursor: pointer;
+    &:hover {
+        color: rgba(250, 250, 250, 0.8)
+    }
 `;
 const UserAlert = styled.div`
     text-align: center;
