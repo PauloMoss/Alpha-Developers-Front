@@ -43,7 +43,7 @@ export default function Login() {
         setButtonStatus({status:loading, userAlert: "", isDisabled: true});
 
         const body = user;
-        const request = axios.post('http://localhost:4000/login', body);
+        const request = axios.post('https://back-projeto-alpha-developers.herokuapp.com/login', body);
         request.then(r => {
             if(checkBox) {
                 const loginSaved = JSON.stringify(r.data);
