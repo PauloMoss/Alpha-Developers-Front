@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Loader from "react-loader-spinner";
 
@@ -9,13 +9,12 @@ import Logo from '../../assets/logo.svg';
 export default function SignUp() {
 
     const history = useHistory();
+    const location = useLocation();
     const [userSignUp, setUserSignUp] = useState({ name: "", email: "",  password: "", confirmPassword: "", cpf: "", rg: "", address: "", city: "", state: "" });
     const { name, email, password, confirmPassword, cpf, rg, address, city, state } = userSignUp;
     const [buttonStatus, setButtonStatus] = useState({ status:"Cadastrar", userAlert: "", isDisabled: false});
     const { status, userAlert, isDisabled } = buttonStatus;
     const loading = <Loader type="ThreeDots" color="#FFFFFF" height={19} width={50}/>
-
-    console.log(userSignUp);
 
     function handleOnChange(e, objKey) {
         setUserSignUp({...userSignUp, [objKey]: e.target.value})
@@ -43,7 +42,7 @@ export default function SignUp() {
         setButtonStatus({status: loading, userAlert: "", isDisabled: true});
 
         const body = userSignUp;
-        const request = axios.post("http://localhost:4000/sign-up", body);
+        const request = axios.post("https://back-projeto-alpha-developers.herokuapp.com/sign-up", body);
         request.then(() => history.push("/"));
         request.catch(() => {
             setButtonStatus({status:"Cadastrar", userAlert: <UserAlert>Por favor, verifique os dados e tente novamente.</UserAlert>, isDisabled: false});
@@ -53,7 +52,7 @@ export default function SignUp() {
 
     return(
         <Container>
-            <BannerStyle>
+            <BannerStyle location={location.pathname} >
                 <img src={Logo} alt="Alpha Logo"/>
             </BannerStyle>
             <SignUpContainer>
