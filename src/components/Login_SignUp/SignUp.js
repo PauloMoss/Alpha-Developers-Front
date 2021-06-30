@@ -16,8 +16,6 @@ export default function SignUp() {
     const { status, userAlert, isDisabled } = buttonStatus;
     const loading = <Loader type="ThreeDots" color="#FFFFFF" height={19} width={50}/>
 
-    console.log(userSignUp);
-
     function handleOnChange(e, objKey) {
         setUserSignUp({...userSignUp, [objKey]: e.target.value})
     }

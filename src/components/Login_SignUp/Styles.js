@@ -96,7 +96,6 @@ margin: 6px 0;
 font-size: 15px;
 color: #000;
 background-color: ${props => props.disabled ? '#F2F2F2' : '#FFFFFF'};
-font-family: 'Raleway', sans-serif;
     ::placeholder {
         color: #000;
         opacity: 0.5
@@ -113,7 +112,6 @@ margin: 6px 0;
 font-size: 15px;
 color: #000;
 background-color: ${props => props.disabled ? '#F2F2F2' : '#FFFFFF'};
-font-family: 'Raleway', sans-serif;
 ::placeholder {
     color: #000;
     opacity: 0.5

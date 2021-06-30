@@ -15,6 +15,7 @@ export default function Login() {
     const { email, password } = user;
     const [buttonStatus, setButtonStatus] = useState({ status:"Entrar", userAlert: "", isDisabled: false});
     const { status, userAlert, isDisabled } = buttonStatus;
+    const loading = <Loader type="ThreeDots" color="#FFFFFF" height={19} width={50}/>
     let checkBox;
 
     useEffect(() => {
@@ -39,7 +40,7 @@ export default function Login() {
             setButtonStatus({...buttonStatus, userAlert: <UserAlert>A senha precisa ter no minimo 6 caracteres</UserAlert>});
             return;
         }
-        setButtonStatus({status:<Loader type="ThreeDots" color="#FFFFFF" height={19} width={50}/>, userAlert: "", isDisabled: true});
+        setButtonStatus({status:loading, userAlert: "", isDisabled: true});
 
         const body = user;
         const request = axios.post('http://localhost:4000/login', body);
@@ -50,6 +51,14 @@ export default function Login() {
             }
             setUserProfile(r.data)
             history.push("/products")
+        });
+        request.catch(e => {
+            if(e.response.status === 401) {
+                setButtonStatus({ status:"Entrar", userAlert: <UserAlert>Usuario ou senha incorreta</UserAlert>, isDisabled: false})
+            } else {
+                setButtonStatus({ status:"Entrar", userAlert: <UserAlert>Ocorreu um erro, tente novamente</UserAlert>, isDisabled: false})
+            }
+            
         })
     }
 

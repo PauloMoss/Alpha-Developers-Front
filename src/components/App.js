@@ -9,7 +9,6 @@ import SignUp from './Login_SignUp/SignUp';
 
 export default function App() {
 
-    localStorage.removeItem("lastLogin");
     const alreadyLoggedIn = localStorage.getItem("lastLogin");
     const[userProfile, setUserProfile] = useState(alreadyLoggedIn && JSON.parse(alreadyLoggedIn));
 
