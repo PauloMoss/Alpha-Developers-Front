@@ -63,7 +63,7 @@ export default function Login() {
                     <Input type="text" placeholder="Email" value={email} disabled={isDisabled} onChange={e => handleOnChange(e, "email")}/>
                     <Input type="password" placeholder="Senha" value={password} disabled={isDisabled} onChange={e => handleOnChange(e, "password")} />
                     <div style={{color: '#FFFFFF'}}><input type="checkbox" onChange={ (e) => checkBox = e.target.checked }/> manhenha-se conectado</div>
-                    <Button type="submit" >{status}</Button>
+                    <Button type="submit" disabled={isDisabled} >{status}</Button>
                 </form>
                 <Link to="/sign-up" ><span>Primeira vez? Cadastre-se!</span></Link>
                 {userAlert}

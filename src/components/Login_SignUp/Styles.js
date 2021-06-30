@@ -97,10 +97,10 @@ font-size: 15px;
 color: #000;
 background-color: ${props => props.disabled ? '#F2F2F2' : '#FFFFFF'};
 font-family: 'Raleway', sans-serif;
-::placeholder {
-    color: #000;
-    opacity: 0.5
-}
+    ::placeholder {
+        color: #000;
+        opacity: 0.5
+    }
 `;
 
 const StyledInput = styled(NumberFormat)`
@@ -130,7 +130,8 @@ const Button = styled.button`
     border-radius: 5px;
     color: #FFFFFF;
     font-size: 20px;
-    cursor: pointer;
+    background-color: ${props => props.disabled ? "#880CCC" : "#A375FC"};
+    cursor: ${props => props.disabled ? "not-allowed" : "pointer"};
     &:hover {
         color: rgba(250, 250, 250, 0.8)
     }
@@ -138,7 +139,7 @@ const Button = styled.button`
 const UserAlert = styled.div`
     text-align: center;
     font-weight: 700;
-    margin-top: 10px;
+    padding-top: 10px;
     color: red;
 `;
 
