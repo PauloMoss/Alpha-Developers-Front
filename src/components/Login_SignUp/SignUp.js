@@ -4,7 +4,7 @@ import axios from 'axios';
 import Loader from "react-loader-spinner";
 
 import { Container, BannerStyle, SignUpContainer, Input, Button, UserAlert, StyledInput } from './Styles';
-import Logo from '../../assets/Logo.png';
+import Logo from '../../assets/logo.svg';
 
 export default function SignUp() {
 

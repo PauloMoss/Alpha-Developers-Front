@@ -1,20 +1,25 @@
 import styled from "styled-components";
 import logo from "../assets/logo-pequeno.svg";
 import SearchBar from "./tools/SearchBar.js";
+import {Link} from "react-router-dom";
 import {FaStoreAlt,FaUser, FaShoppingCart } from "react-icons/fa";
 
 export default function Header() {
     return (
         <Container>
             <Wrap>
-                <Logo src={logo} alt="logo-Alpha"/>
+                <Link to="/">
+                    <Logo src={logo} alt="logo-Alpha"/>
+                </Link>    
                 <SearchBar />
                 <HeaderMenu>
-                    <Item>
-                        <FaStoreAlt/>
-                        <br/>
-                        <span>Produtos</span>
-                    </Item>
+                    <Link to="/products">
+                        <Item >
+                            <FaStoreAlt/>
+                            <br/>
+                            <span>Produtos</span>
+                        </Item>
+                    </Link>
                     <Item>
                         <FaUser/>
                         <br/>

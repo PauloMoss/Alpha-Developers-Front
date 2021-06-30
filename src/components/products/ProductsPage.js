@@ -1,58 +1,26 @@
+import axios from "axios";
 import styled from "styled-components";
 import Header from "../Header";
 import {FaCog, FaShoppingCart} from "react-icons/fa";
+import { useCallback, useEffect, useState } from "react";
 
 export default function ProductsPage() {
-    const products = [
-        {
-            id: 1,
-            name: "Avell A62 LIV - Prata",
-            price: "699993",
-            description: "Intel® Core™ i5-10750H (10ª. Ger. Até 5.0 GHZ);Tela 15.6” Full HD WVA 120Hz;GeForce™ GTX 1650Ti (4GB GDDR6);16GB de RAM DDR4;500GB SSD NVME;Apenas 2.1Kg;",
-            img: "https://images.avell.com.br/media/catalog/product/cache/1/small_image/350x262/9df78eab33525d08d6e5fb8d27136e95/a/5/a52_6__2.jpg",        
-            inStock: 0
-        },
-        {
-            id: 2,
-            name: "Avell A62 LIV - Preto", 
-            price: "1799993",
-            description: "Intel® Core™ i7-10750H (10ª. Ger. Até 5.0 GHZ);Tela 15.6” Full HD WVA 120Hz;GeForce™ GTX 1650Ti (4GB GDDR6);16GB de RAM DDR4;500GB SSD NVME;Apenas 2.1Kg;",
-            img: "https://images.avell.com.br/media/catalog/product/cache/1/small_image/350x262/9df78eab33525d08d6e5fb8d27136e95/a/6/a60-_12_.jpg",        
-            inStock: 5
-        },
-        {
-            id: 3,
-            name: "Avell A62 LIV - branco", 
-            price: "599993",
-            description: "Intel® Core™ i3-10750H (10ª. Ger. Até 5.0 GHZ);Tela 15.6” Full HD WVA 120Hz;GeForce™ GTX 1650Ti (4GB GDDR6);16GB de RAM DDR4;500GB SSD NVME;Apenas 2.1Kg;",
-            img: "https://images7.kabum.com.br/produtos/fotos/131367/notebook-samsung-book-x30-intel-core-i5-10210u-8gb-1tb-tela-15-6-windows-10-home-branco-np550xcj-kf2br_1605290217_g.jpg",        
-            inStock: 5
-        },
-        {
-            id: 4,
-            name: "Avell A62 LIV - Prata",
-            price: "699993",
-            description: "Intel® Core™ i5-10750H (10ª. Ger. Até 5.0 GHZ);Tela 15.6” Full HD WVA 120Hz;GeForce™ GTX 1650Ti (4GB GDDR6);16GB de RAM DDR4;500GB SSD NVME;Apenas 2.1Kg;",
-            img: "https://images.avell.com.br/media/catalog/product/cache/1/small_image/350x262/9df78eab33525d08d6e5fb8d27136e95/a/5/a52_6__2.jpg",        
-            inStock: 0
-        },
-        {
-            id: 5,
-            name: "Avell A62 LIV - Preto", 
-            price: "1799993",
-            description: "Intel® Core™ i7-10750H (10ª. Ger. Até 5.0 GHZ);Tela 15.6” Full HD WVA 120Hz;GeForce™ GTX 1650Ti (4GB GDDR6);16GB de RAM DDR4;500GB SSD NVME;Apenas 2.1Kg;",
-            img: "https://images.avell.com.br/media/catalog/product/cache/1/small_image/350x262/9df78eab33525d08d6e5fb8d27136e95/a/6/a60-_12_.jpg",        
-            inStock: 5
-        },
-        {
-            id: 6,
-            name: "Avell A62 LIV - branco", 
-            price: "599993",
-            description: "Intel® Core™ i3-10750H (10ª. Ger. Até 5.0 GHZ);Tela 15.6” Full HD WVA 120Hz;GeForce™ GTX 1650Ti (4GB GDDR6);16GB de RAM DDR4;500GB SSD NVME;Apenas 2.1Kg;",
-            img: "https://images7.kabum.com.br/produtos/fotos/131367/notebook-samsung-book-x30-intel-core-i5-10210u-8gb-1tb-tela-15-6-windows-10-home-branco-np550xcj-kf2br_1605290217_g.jpg",        
-            inStock: 5
-        }
-    ];
+    const [products, setProducts] = useState([]);
+    const fetchProducts = useCallback(()=>{
+        const promisse = axios.get(`http://localhost:4000/products`);
+        promisse.then((response) => {
+            setProducts(response.data);
+            console.log(response.data)
+        });
+        promisse.catch((error) => {
+            console.log(error.status);
+        })
+    },[setProducts]);
+
+    useEffect(()=>{
+        fetchProducts();
+    },[fetchProducts]);
+
     return (
         <Page>
             <Header/>
@@ -62,11 +30,12 @@ export default function ProductsPage() {
                         Produtos
                     </Title>
                     <Wrap>
-                        {products.map(({id,name,price,description,img,inStock})=> {
+                        {products?.lenght !== 0 
+                        ? products.map(({id,name,price,description,image,inStock})=> {
                             const productInfo = description.split(";").filter((s)=> s!=="");
                             return(
                                 <Product key={id}>
-                                    <img src={img} alt={name}/>
+                                    <img src={image} alt={name}/>
                                     <HorizontalSpreader/>
                                     <Info>
                                         <span>{name}</span>
@@ -112,7 +81,14 @@ export default function ProductsPage() {
                                     </Price>
                                 </Product>
                             )
-                        })}
+                        })
+                        :
+                        <Catalog>
+                            <Title>
+                                Ainda não há produtos nessa página.
+                            </Title>
+                        </Catalog>
+                        }
                     </Wrap>
                 </Catalog>
             </Container>
