@@ -29,7 +29,7 @@ const BannerStyle = styled.div`
     img {
         width:300px;
         height: 300px;
-        object-fit: cover;
+        //object-fit: cover;
     }
 
     @media (max-width: 600px) {

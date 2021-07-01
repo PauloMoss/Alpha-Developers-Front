@@ -42,7 +42,7 @@ export default function SignUp() {
         setButtonStatus({status: loading, userAlert: "", isDisabled: true});
 
         const body = userSignUp;
-        const request = axios.post("https://back-projeto-alpha-developers.herokuapp.com/sign-up", body);
+        const request = axios.post("http://localhost:4000/sign-up", body);
         request.then(() => history.push("/"));
         request.catch(() => {
             setButtonStatus({status:"Cadastrar", userAlert: <UserAlert>Por favor, verifique os dados e tente novamente.</UserAlert>, isDisabled: false});
