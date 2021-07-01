@@ -26,23 +26,23 @@ import {
 export default function ProductsPage() {
     const history = useHistory();
     const [products, setProducts] = useState([]);
-    const {userProfile} = useContext(UserContext);
+    const {userProfile, setUserProfile} = useContext(UserContext);
     
     const fetchProducts = useCallback(()=>{
-        const config = {headers: {Authorization: `Bearer ${userProfile.token}`}};
+        const config = {headers: {Authorization: `Bearer ${userProfile?.token}`}};
         
         const promisse = axios.get(`http://localhost:4000/products`,config);
         promisse.then((response) => {
             setProducts(response.data);
         });
         promisse.catch((error) => {
-            if (error.status === 401){
-                console.log(error.status);
+            if (error.response.status === 401){
                 localStorage.clear();
-                history.push("/");
+                setUserProfile(null);
+                return history.push("/");
             }
         })
-    },[setProducts,userProfile?.token,history]);
+    },[setProducts,userProfile?.token,history,setUserProfile]);
 
     useEffect(()=>{
         fetchProducts();
