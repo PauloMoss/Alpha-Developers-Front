@@ -23,7 +23,7 @@ export default function App() {
                 <Route exact path="/" component={Login} />
                 <Route exact path="/sign-up" component={SignUp} />
                 <Route exact path="/products" component={ProductsPage}/>
-                <Route exact path="/product/id:?" component={ProductPage}/>
+                <Route exact path="/product/:id" component={ProductPage}/>
             </Switch>
             </UserContext.Provider>
         </Router>
