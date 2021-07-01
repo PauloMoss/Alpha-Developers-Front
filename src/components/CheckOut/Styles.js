@@ -61,12 +61,18 @@ const ProcuctSummary = styled.div`
         width: 15%;
         margin:10px;
     }
+    &>div:first-child, div:nth-child(2) {
+        width:20%;
+    }
 `;
 
 const Product = styled.div`
-    width:20%;
     flex-direction:column;
+    font-size: 12px;
+
     span:nth-child(1){
+        font-size: 15px;
+        text-align:center;
         font-weight: bold;
         padding-bottom:10px;
     }
@@ -79,6 +85,15 @@ const Image = styled.div`
         width: 130px;
         height:130px;
         object-fit: cover;
+    }
+`;
+
+const Quantity = styled.div`
+    button{
+        text-align:center;
+        width:20px;
+        margin: 5px;
+        cursor:pointer;
     }
 `;
 
@@ -133,4 +148,4 @@ const FinishButton = styled.button`
     }
 `;
 
-export { Container, Title, OrderSummaryContainer, OrderLabels, ProcuctSummary, Product, Image, SubtotalBar, ButtunsContainer, Button, FinishButton };
+export { Container, Title, OrderSummaryContainer, OrderLabels, ProcuctSummary, Product, Image, Quantity, SubtotalBar, ButtunsContainer, Button, FinishButton };
