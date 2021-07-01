@@ -25,11 +25,13 @@ export default function Header() {
                         <br/>
                         <span>Minha Conta</span>
                     </Item>
-                    <Item>
-                        <FaShoppingCart /> 
-                        <br/>
-                        <span>Carrinho</span>
-                    </Item>
+                    <Link to="/checkout">
+                        <Item>
+                            <FaShoppingCart /> 
+                            <br/>
+                            <span>Carrinho</span>
+                        </Item>
+                    </Link>
                 </HeaderMenu>
             </Wrap>
         </Container>
