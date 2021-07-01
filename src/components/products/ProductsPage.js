@@ -47,7 +47,10 @@ export default function ProductsPage() {
     useEffect(()=>{
         fetchProducts();
     },[fetchProducts]);
-
+    function goToProduct(id) {
+        console.log(id)
+        history.push(`product/${id}`);
+    }
     return (
         <Page>
             <Header/>
@@ -63,11 +66,11 @@ export default function ProductsPage() {
                             return(
                                 <Product key={id}>
                                     <ImageContainer>
-                                        <img src={image} alt={name}/>
+                                        <img src={image} alt={name} onClick={()=>goToProduct(id)}/>
                                     </ImageContainer>
                                     <HorizontalSpreader/>
                                     <Info>
-                                        <span>{name}</span>
+                                        <span onClick={()=>goToProduct(id)}>{name}</span>
                                         <ul>
                                             <span>Especificações:</span>
                                             {productInfo.map((info,i)=>{
@@ -84,7 +87,7 @@ export default function ProductsPage() {
                                         {inStock !== 0
                                         ?
                                         <>
-                                            <ConfigButton>
+                                            <ConfigButton onClick={()=>goToProduct(id)}>
                                                 <FaCog /> CONFIGURAR
                                             </ConfigButton>
                                             <AddToCartButton>

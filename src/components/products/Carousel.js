@@ -19,9 +19,9 @@ export default function Carousel(props) {
         );
       }
     };
-    call(images);
+    call(props?.images);
     return () => (shouldCancel = true);
-    },[setImages])
+    },[setImages,props?.images])
 
     return(
         <>

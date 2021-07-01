@@ -80,7 +80,11 @@ font-weight:bold;
 }
 `
 const ProductDetails = styled(Info)`
-
+    width:100%;
+    align-items: flex-start;
+    li{
+        color:#FFFDFC;
+    }
 `
 export {
     ProductDescription, 

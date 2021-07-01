@@ -3,7 +3,6 @@ import axios from "axios";
 import UserContext from "../../contexts/UserContext.js"
 import {useHistory, useParams} from "react-router-dom";
 import { useCallback, useEffect, useState , useContext} from "react";
-import styled from "styled-components";
 import Carousel from "./Carousel.js";
 
 import Header from "../Header";
@@ -40,9 +39,10 @@ export default function ProductPage() {
         
         const promisse = axios.get(`http://localhost:4000/product/${pageId}`,config);
         promisse.then((response) => {
+            console.log(response.data)
             setProduct(response.data);
             if (response?.data){
-                const info = product?.description.split(";").filter((s)=> s!=="");
+                const info = response.data.description?.split(";").filter((s)=> s!=="");
                 setProductInfo(info);
                 setSlideImages(response.data.images)
             } else {
@@ -73,7 +73,6 @@ export default function ProductPage() {
                     <Content>
                             <ProductImage>
                                     <Carousel images={slideImages}/>
-                                    {product?.image}
                             </ProductImage>
                             <ProductDescription>
                                 <ProductTitle>
@@ -108,6 +107,7 @@ export default function ProductPage() {
                                 </ProductBid>
                                 <HorizontalSpreader />
                                 <ProductDetails>
+                                    <span>Especificações :</span>
                                     {productInfo 
                                     ? productInfo.map((info,i)=>{
                                             return (
