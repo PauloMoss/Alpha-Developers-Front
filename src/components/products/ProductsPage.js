@@ -30,12 +30,10 @@ export default function ProductsPage() {
     
     const fetchProducts = useCallback(()=>{
         const config = {headers: {Authorization: `Bearer ${userProfile.token}`}};
-        console.log(config)
         
         const promisse = axios.get(`http://localhost:4000/products`,config);
         promisse.then((response) => {
             setProducts(response.data);
-            console.log(response.data)
         });
         promisse.catch((error) => {
             if (error.status === 401){
