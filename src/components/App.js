@@ -16,7 +16,7 @@ export default function App() {
 
     const alreadyLoggedIn = localStorage.getItem("lastLogin");
     const[userProfile, setUserProfile] = useState(alreadyLoggedIn && JSON.parse(alreadyLoggedIn));
-    const[userCart, setUserCart] = useState([{productId:3, quantity: 1}]);
+    const[userCart, setUserCart] = useState([]);
 
     return(
         <Router>
