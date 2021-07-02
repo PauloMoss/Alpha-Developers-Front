@@ -1,20 +1,22 @@
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useEffect, useState , useContext} from "react";
 import axios from "axios";
 import { IoAdd, IoRemove } from 'react-icons/io5';
-import UserContext from "../../contexts/UserContext.js"
+import UserContext from "../../contexts/UserContext.js";
+import CartContext from "../../contexts/CartContext";
 import { Container, Title, OrderSummaryContainer, OrderLabels, ProcuctSummary, Product, Image, Quantity, SubtotalBar, ButtunsContainer, Button, FinishButton } from './Styles';
 
 export default function CheckOut() {
 
     const history = useHistory();
     const [cart, setCart] = useState([]);
-    const {userProfile, setUserProfile} = useContext(UserContext);
+    const {userProfile} = useContext(UserContext);
+    const {userCart, setUserCart} = useContext(CartContext);
     const totalOrderValue = cart?.lenght !== 0 ? cart.reduce((acc, c) => acc += (c.price*c.orderQuantity), 0) : null;
 
     useEffect(()=>{
         const config = {headers: {Authorization: `Bearer ${userProfile?.token}`}};
-        const request = axios.get(`http://localhost:4000/checkout`,config);
+        const request = axios.post(`http://localhost:4000/checkout`, userCart, config);
         request.then((r) => {
             setCart(r.data);
         });
@@ -29,10 +31,13 @@ export default function CheckOut() {
     },[]);
 
     function handleQuantity(operator, index) {
-        const newCart = [...cart];
-        const {orderQuantity} = newCart[index];
+        let newCart = [...cart];
+        const {id, orderQuantity} = newCart[index];
         if(operator === '-') {
             newCart[index] = {...newCart[index], orderQuantity: orderQuantity - 1};
+            if(orderQuantity === 1) {
+                newCart = cart.filter(c => c.id !== id);
+            }
             setCart(newCart)
         }else if(operator === '+') {
             newCart[index] = {...newCart[index], orderQuantity: orderQuantity + 1};
@@ -40,10 +45,15 @@ export default function CheckOut() {
         }
     }
 
+    function keepBuying() {
+        setUserCart(cart.map(c => ({productId: c.id, quantity: c.orderQuantity})));
+        history.push("/products")
+    }
+
     function handleFinishedOrder() {
         const config = {headers: {Authorization: `Bearer ${userProfile?.token}`}};
-        const body = {finishedOrder: cart}
-        const request = axios.post(`http://localhost:4000/checkout`, body, config);
+        const body = {cart}
+        const request = axios.post(`http://localhost:4000/purchase`, body, config);
         request.then(() => {
             history.push("/products")
         });
@@ -74,8 +84,8 @@ export default function CheckOut() {
                         return(
                             <ProcuctSummary key={c.id}>
                                 <Product><span>{c.name}</span><span>{productInfo}</span></Product>
-                                <Image><img src={c.img} alt={c.name}/></Image>
-                                <div>{c.inStock === 0 ? 'indisponivel' : 'Disponivel'}</div>
+                                <Image><img src={c.image} alt={c.name}/></Image>
+                                <div>{c.instock === 0 ? <span>Indisponivel</span> : <span>Disponivel <br/> {c.instock} unidades</span>}</div>
                                 <Quantity>
                                     <button onClick={() => handleQuantity('-', i)}><IoRemove/></button>
                                     {c.orderQuantity}
@@ -99,11 +109,9 @@ export default function CheckOut() {
                 
             </OrderSummaryContainer>
             <ButtunsContainer>
-                <Link to="/products">
-                    <Button>
-                        Continuar Comprando
-                    </Button>
-                </Link>
+                <Button onClick={keepBuying}>
+                    Continuar Comprando
+                </Button>
                 
                 <FinishButton onClick={handleFinishedOrder}>
                     Finalizar Compra

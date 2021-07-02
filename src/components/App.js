@@ -4,6 +4,7 @@ import { useState } from "react";
 import GlobalStyle from "../styles/GlobalStyles";
 import '../styles/reset.css'
 import UserContext from "../contexts/UserContext";
+import CartContext from "../contexts/CartContext";
 import Header from "./Header";
 import Login from './Login_SignUp/Login';
 import SignUp from './Login_SignUp/SignUp';
@@ -15,10 +16,12 @@ export default function App() {
 
     const alreadyLoggedIn = localStorage.getItem("lastLogin");
     const[userProfile, setUserProfile] = useState(alreadyLoggedIn && JSON.parse(alreadyLoggedIn));
+    const[userCart, setUserCart] = useState([{productId:2, quantity:1}, {productId:1, quantity:2}]);
 
     return(
         <Router>
             <UserContext.Provider value={{ userProfile, setUserProfile }} >
+            <CartContext.Provider value={{userCart,setUserCart}}>
             <GlobalStyle />
             <Switch>
                 <Route exact path="/" component={Login} />
@@ -32,6 +35,7 @@ export default function App() {
                     <CheckOut />
                 </Route>
             </Switch>
+            </CartContext.Provider>
             </UserContext.Provider>
         </Router>
     );
