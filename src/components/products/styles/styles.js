@@ -53,6 +53,9 @@ const ImageContainer = styled.div`
     border-radius:8px;
     border:2px solid #8F47F6;
     margin-bottom:15px;
+    img{
+        cursor:pointer;
+    }
 `;
 const Product = styled.div`
     border:1px solid #8F47F6;

@@ -47,6 +47,10 @@ export default function ProductsPage() {
         fetchProducts();
     },[fetchProducts]);
 
+    function goToProduct(id) {
+        history.push(`/product/${id}`);
+    }
+
     return (
         <Page>
             <Container>
@@ -55,17 +59,17 @@ export default function ProductsPage() {
                         Produtos
                     </Title>
                     <Wrap>
-                        {products?.lenght !== 0 
+                        {products && products.length > 0 
                         ? products.map(({id,name,price,description,image,inStock})=> {
                             const productInfo = description.split(";").filter((s)=> s!=="");
                             return(
                                 <Product key={id}>
                                     <ImageContainer>
-                                        <img src={image} alt={name}/>
+                                        <img src={image} alt={name} onClick={()=>goToProduct(id)}/>
                                     </ImageContainer>
                                     <HorizontalSpreader/>
                                     <Info>
-                                        <span>{name}</span>
+                                        <span onClick={()=>goToProduct(id)}>{name}</span>
                                         <ul>
                                             <span>Especificações:</span>
                                             {productInfo.map((info,i)=>{
@@ -82,7 +86,7 @@ export default function ProductsPage() {
                                         {inStock !== 0
                                         ?
                                         <>
-                                            <ConfigButton>
+                                            <ConfigButton onClick={()=>goToProduct(id)}>
                                                 <FaCog /> CONFIGURAR
                                             </ConfigButton>
                                             <AddToCartButton>

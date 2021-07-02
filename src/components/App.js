@@ -30,7 +30,10 @@ export default function App() {
                     <Header />
                     <ProductsPage />
                 </Route>
-                <Route exact path="/product/id:?" component={ProductPage}/>
+                <Route exact path="/product/id:?">
+                    <Header />
+                    <ProductPage />
+                </Route>
                 <Route exact path="/checkout">
                     <Header />
                     <CheckOut />
