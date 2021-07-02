@@ -4,7 +4,6 @@ import UserContext from "../../contexts/UserContext.js"
 import {useHistory} from "react-router-dom";
 import { useCallback, useEffect, useState , useContext} from "react";
 
-import Header from "../Header";
 import {FaCog, FaShoppingCart} from "react-icons/fa";
 import {
     HorizontalSpreader, 
@@ -50,7 +49,6 @@ export default function ProductsPage() {
 
     return (
         <Page>
-            <Header/>
             <Container>
                 <Catalog>
                     <Title>

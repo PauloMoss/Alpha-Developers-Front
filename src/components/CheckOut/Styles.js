@@ -8,6 +8,9 @@ align-items:center;
 flex-direction:column;
 width:978px;
 background:#000;
+@media (max-width: 600px) {
+        width: 100%;
+    }
 `;
 
 const Title = styled.div`
@@ -27,6 +30,10 @@ const OrderSummaryContainer = styled.div`
     width:95%;
     margin: 40px 0;
     background-color: #fff;
+    @media (max-width: 600px) {
+        width: 100%;
+        flex-direction: column;
+    }
 `;
 
 const OrderLabels = styled.div`
@@ -46,10 +53,16 @@ const OrderLabels = styled.div`
     & > div:first-child{
         width:40%;
     }
+    @media (max-width: 600px) {
+        &>div:first-child {
+        width:30%;
+        }
+    }
 `;
 
 const ProcuctSummary = styled.div`
     display: flex;
+    justify-content:center;
     align-items: center;
     width:100%;
     margin-bottom: 15px;
@@ -63,6 +76,11 @@ const ProcuctSummary = styled.div`
     }
     &>div:first-child, div:nth-child(2) {
         width:20%;
+    }
+    @media (max-width: 600px) {
+        &>div:first-child {
+            width:30%;
+        }
     }
 `;
 
@@ -79,6 +97,7 @@ const Product = styled.div`
 `;
 
 const Image = styled.div`
+    display:none;
     padding:0;
     width:20%;
     img {

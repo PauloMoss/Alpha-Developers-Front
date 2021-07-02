@@ -16,7 +16,7 @@ export default function App() {
 
     const alreadyLoggedIn = localStorage.getItem("lastLogin");
     const[userProfile, setUserProfile] = useState(alreadyLoggedIn && JSON.parse(alreadyLoggedIn));
-    const[userCart, setUserCart] = useState([{productId:2, quantity:1}, {productId:1, quantity:2}]);
+    const[userCart, setUserCart] = useState([{productId:3, quantity: 1}]);
 
     return(
         <Router>
@@ -27,6 +27,7 @@ export default function App() {
                 <Route exact path="/" component={Login} />
                 <Route exact path="/sign-up" component={SignUp} />
                 <Route exact path="/products">
+                    <Header />
                     <ProductsPage />
                 </Route>
                 <Route exact path="/product/id:?" component={ProductPage}/>

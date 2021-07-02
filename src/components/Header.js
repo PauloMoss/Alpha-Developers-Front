@@ -53,6 +53,9 @@ const Wrap = styled.div`
     justify-content:space-between;
     align-items:center;
     width:978px;
+    @media (max-width: 600px) {
+        width: 100%;
+    }
 `;
 const Logo = styled.img`
     width:86px;

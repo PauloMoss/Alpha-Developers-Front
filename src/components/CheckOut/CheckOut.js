@@ -2,6 +2,8 @@ import { useHistory } from 'react-router-dom';
 import { useEffect, useState , useContext} from "react";
 import axios from "axios";
 import { IoAdd, IoRemove } from 'react-icons/io5';
+
+import Modal from './Modal.js';
 import UserContext from "../../contexts/UserContext.js";
 import CartContext from "../../contexts/CartContext";
 import { Container, Title, OrderSummaryContainer, OrderLabels, ProcuctSummary, Product, Image, Quantity, SubtotalBar, ButtunsContainer, Button, FinishButton } from './Styles';
@@ -12,7 +14,8 @@ export default function CheckOut() {
     const [cart, setCart] = useState([]);
     const {userProfile} = useContext(UserContext);
     const {userCart, setUserCart} = useContext(CartContext);
-    const totalOrderValue = cart?.lenght !== 0 ? cart.reduce((acc, c) => acc += (c.price*c.orderQuantity), 0) : null;
+    const totalOrderValue = cart ? cart.lenght !== 0 ? cart.reduce((acc, c) => acc += (c.price*c.orderQuantity), 0) : null: null;
+    const [modalIsOpen, setModalIsOpen] = useState(false);
 
     useEffect(()=>{
         const config = {headers: {Authorization: `Bearer ${userProfile?.token}`}};
@@ -54,12 +57,16 @@ export default function CheckOut() {
         const config = {headers: {Authorization: `Bearer ${userProfile?.token}`}};
         const body = {cart}
         const request = axios.post(`http://localhost:4000/purchase`, body, config);
-        request.then(() => {
-            history.push("/products")
+        request.then((r) => {
+            setModalIsOpen(!modalIsOpen);
         });
         request.catch(e => {
             console.log(e.response.status);
         })
+    }
+
+    function handleReturn() {
+        history.push("/products")
     }
 
     return(
@@ -76,28 +83,33 @@ export default function CheckOut() {
                     <div>Preco Unitario</div>
                     <div>Subtotal</div>
                 </OrderLabels>
-                {cart?.lenght !== 0 ?
-                    cart.map((c, i) => {
-                        const productInfo = c.description.split(";").filter((s)=> s!=="");
-                        const productValue = `R$ ${(c.price/100).toFixed(2).replace('.',',')}`;
-                        const subTotal = `R$ ${(c.price*c.orderQuantity/100).toFixed(2).replace('.',',')}`;
-                        return(
-                            <ProcuctSummary key={c.id}>
-                                <Product><span>{c.name}</span><span>{productInfo}</span></Product>
-                                <Image><img src={c.image} alt={c.name}/></Image>
-                                <div>{c.instock === 0 ? <span>Indisponivel</span> : <span>Disponivel <br/> {c.instock} unidades</span>}</div>
-                                <Quantity>
-                                    <button onClick={() => handleQuantity('-', i)}><IoRemove/></button>
-                                    {c.orderQuantity}
-                                    <button onClick={() => handleQuantity('+', i)}><IoAdd/></button>
-                                </Quantity>
-                                <div>{productValue}</div>
-                                <div>{subTotal}</div>
-                            </ProcuctSummary>
-                        );
-                    })
-                    : "Ainda não há produtos nessa página."
-                }
+                {cart ?
+                    cart.lenght === 0 ? <ProcuctSummary>Nenhum item no carrinho</ProcuctSummary> :
+                        cart.map((c, i) => {
+                            const productInfo = c.description.split(";").filter((s)=> s!=="");
+                            const productValue = `R$ ${(c.price/100).toFixed(2).replace('.',',')}`;
+                            const subTotal = `R$ ${(c.price*c.orderQuantity/100).toFixed(2).replace('.',',')}`;
+                            return(
+                                <ProcuctSummary key={c.id}>
+                                    <Product><span>{c.name}</span><span>{productInfo}</span></Product>
+                                    <Image><img src={c.image} alt={c.name}/></Image>
+                                    <div>{c.inStock === 0 ? <span>Indisponivel</span> : <span>Disponivel <br/> {c.inStock} unidades</span>}</div>
+                                    <Quantity>
+                                        {c.inStock === 0 ? 
+                                            "-" 
+                                        :
+                                        <>
+                                            <button onClick={() => handleQuantity('-', i)}><IoRemove/></button>
+                                                {c.orderQuantity}
+                                            <button onClick={() => handleQuantity('+', i)}><IoAdd/></button>
+                                        </>}
+                                    </Quantity>
+                                    <div>{productValue}</div>
+                                    <div>{subTotal}</div>
+                                </ProcuctSummary>
+                            );
+                        })
+                : "Carregando"}
                 <SubtotalBar>
                     <div>
                         Valor Total: 
@@ -108,6 +120,13 @@ export default function CheckOut() {
                 </SubtotalBar>
                 
             </OrderSummaryContainer>
+            < Modal 
+                modalIsOpen = { modalIsOpen }
+                setModalIsOpen = { setModalIsOpen }
+                handleReturn={ handleReturn }
+                purchase = {cart}
+                totalValue = {totalOrderValue}
+            />
             <ButtunsContainer>
                 <Button onClick={keepBuying}>
                     Continuar Comprando
