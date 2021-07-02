@@ -1,5 +1,6 @@
 import axios from "axios";
 
+import CartContext from "../../contexts/CartContext";
 import UserContext from "../../contexts/UserContext.js"
 import {useHistory, useParams} from "react-router-dom";
 import { useCallback, useEffect, useState , useContext} from "react";
@@ -31,6 +32,7 @@ export default function ProductPage() {
     const history = useHistory();
     const [product, setProduct] = useState("");
     const {userProfile, setUserProfile} = useContext(UserContext);
+    const {userCart, setUserCart} = useContext(CartContext);
     const [productInfo, setProductInfo] = useState('');
     const [slideImages, setSlideImages] = useState([]);
 
@@ -39,6 +41,7 @@ export default function ProductPage() {
         
         const promisse = axios.get(`http://localhost:4000/product/${pageId}`,config);
         promisse.then((response) => {
+            console.log(response.data)
             setProduct(response.data);
             if (response?.data){
                 const info = response.data.description?.split(";").filter((s)=> s!=="");
@@ -63,6 +66,12 @@ export default function ProductPage() {
     useEffect(()=>{
         fetchProduct();
     },[fetchProduct]);
+
+    function handlePurchase() {
+        const cartArray = userCart.filter(c => c.id !== product.id)
+        setUserCart([...cartArray, {productId: product.id, quantity: 1}]);
+        history.push("/checkout")
+    }
 
     return (
         <Page>
@@ -95,7 +104,7 @@ export default function ProductPage() {
                                             {product?.inStock > 0  
                                             ? <>
                                                 <p className="isAvailiable">DISPONÍVEL</p> 
-                                                <PurchaseButton>
+                                                <PurchaseButton onClick={handlePurchase}>
                                                     <FaShoppingCart /> COMPRAR
                                                 </PurchaseButton>
                                             </>

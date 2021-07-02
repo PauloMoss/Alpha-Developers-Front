@@ -1,10 +1,10 @@
 import axios from "axios";
 
+import CartContext from "../../contexts/CartContext";
 import UserContext from "../../contexts/UserContext.js"
 import {useHistory} from "react-router-dom";
 import { useCallback, useEffect, useState , useContext} from "react";
 
-import Header from "../Header";
 import {FaCog, FaShoppingCart} from "react-icons/fa";
 import {
     HorizontalSpreader, 
@@ -26,7 +26,9 @@ import {
 export default function ProductsPage() {
     const history = useHistory();
     const [products, setProducts] = useState([]);
+    const {userCart, setUserCart} = useContext(CartContext);
     const {userProfile, setUserProfile} = useContext(UserContext);
+    console.log(userCart)
     
     const fetchProducts = useCallback(()=>{
         const config = {headers: {Authorization: `Bearer ${userProfile?.token}`}};
@@ -52,9 +54,15 @@ export default function ProductsPage() {
         history.push(`/product/${id}`);
     }
 
+    function handlePurchase(id) {
+        const cartArray = userCart.filter(c => c.id !== id);
+
+        setUserCart([...cartArray, {productId: id, quantity: 1}]);
+        history.push("/checkout")
+    }
+
     return (
         <Page>
-            <Header/>
             <Container>
                 <Catalog>
                     <Title>
@@ -91,7 +99,7 @@ export default function ProductsPage() {
                                             <ConfigButton onClick={()=>goToProduct(id)}>
                                                 <FaCog /> CONFIGURAR
                                             </ConfigButton>
-                                            <AddToCartButton>
+                                            <AddToCartButton onClick={() =>handlePurchase(id)}>
                                                 <FaShoppingCart /> COMPRAR
                                             </AddToCartButton>
                                         </>

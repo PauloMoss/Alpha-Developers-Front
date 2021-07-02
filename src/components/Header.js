@@ -25,11 +25,13 @@ export default function Header() {
                         <br/>
                         <span>Minha Conta</span>
                     </Item>
-                    <Item>
-                        <FaShoppingCart /> 
-                        <br/>
-                        <span>Carrinho</span>
-                    </Item>
+                    <Link to="/checkout">
+                        <Item>
+                            <FaShoppingCart /> 
+                            <br/>
+                            <span>Carrinho</span>
+                        </Item>
+                    </Link>
                 </HeaderMenu>
             </Wrap>
         </Container>
@@ -51,6 +53,9 @@ const Wrap = styled.div`
     justify-content:space-between;
     align-items:center;
     width:978px;
+    @media (max-width: 600px) {
+        width: 100%;
+    }
 `;
 const Logo = styled.img`
     width:86px;

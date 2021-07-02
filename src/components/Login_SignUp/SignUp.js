@@ -44,7 +44,8 @@ export default function SignUp() {
         const body = userSignUp;
         const request = axios.post("http://localhost:4000/sign-up", body);
         request.then(() => history.push("/"));
-        request.catch(() => {
+        request.catch((e) => {
+            console.log(e.response.status)
             setButtonStatus({status:"Cadastrar", userAlert: <UserAlert>Por favor, verifique os dados e tente novamente.</UserAlert>, isDisabled: false});
         })
         setUserSignUp({ name: "", email: "",  password: "", confirmPassword: "", cpf: "", rg: "", address: "", city: "", state: "" });
