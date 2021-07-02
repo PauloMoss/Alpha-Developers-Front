@@ -30,7 +30,7 @@ export default function App() {
                     <Header />
                     <ProductsPage />
                 </Route>
-                <Route exact path="/product/id:?">
+                <Route exact path="/product/:id">
                     <Header />
                     <ProductPage />
                 </Route>

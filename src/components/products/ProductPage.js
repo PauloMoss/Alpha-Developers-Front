@@ -39,6 +39,7 @@ export default function ProductPage() {
         
         const promisse = axios.get(`http://localhost:4000/product/${pageId}`,config);
         promisse.then((response) => {
+            console.log(response.data)
             setProduct(response.data);
             if (response?.data){
                 const info = response.data.description?.split(";").filter((s)=> s!=="");
