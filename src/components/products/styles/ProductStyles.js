@@ -66,17 +66,19 @@ const ProductImage = styled.div`
     display:flex;
     align-items:center;
     justify-content:center;
-    margin:15px;
+    margin:0px 15px 0px 28px;
 `
 const Availability = styled.div`
 font-size: 14px;
-line-height: 16px;
+line-height: 18px;
 font-weight:bold;
 .isAvailiable {
     color:#17CE04;
+    margin-bottom:10px;
 }
 .isNotAvailiable{
     color:#7216F4;
+    margin-bottom:10px;
 }
 `
 const ProductDetails = styled(Info)`

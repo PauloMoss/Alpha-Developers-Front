@@ -39,7 +39,6 @@ export default function ProductPage() {
         
         const promisse = axios.get(`http://localhost:4000/product/${pageId}`,config);
         promisse.then((response) => {
-            console.log(response.data)
             setProduct(response.data);
             if (response?.data){
                 const info = response.data.description?.split(";").filter((s)=> s!=="");
@@ -50,16 +49,16 @@ export default function ProductPage() {
             }
         });
         promisse.catch((error) => {
-            if (error.response.status === 401){
+            if (error?.response?.status === 401){
                 localStorage.clear();
                 setUserProfile(null);
                 return history.push("/");
             }
-            // if (error.response.status === 404) {
-            //     return history.push("/");
-            // }
+            if (error.response.status === 404) {
+                return history.push("/");
+            }
         })
-    },[setProduct,userProfile?.token,history,setUserProfile,pageId,product?.description]);
+    },[setProduct,userProfile?.token,history,setUserProfile,pageId]);
 
     useEffect(()=>{
         fetchProduct();

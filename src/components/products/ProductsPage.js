@@ -47,10 +47,11 @@ export default function ProductsPage() {
     useEffect(()=>{
         fetchProducts();
     },[fetchProducts]);
+
     function goToProduct(id) {
-        console.log(id)
-        history.push(`product/${id}`);
+        history.push(`/product/${id}`);
     }
+
     return (
         <Page>
             <Header/>
@@ -60,7 +61,7 @@ export default function ProductsPage() {
                         Produtos
                     </Title>
                     <Wrap>
-                        {products?.lenght !== 0 
+                        {products && products.length > 0 
                         ? products.map(({id,name,price,description,image,inStock})=> {
                             const productInfo = description.split(";").filter((s)=> s!=="");
                             return(

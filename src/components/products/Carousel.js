@@ -13,8 +13,8 @@ export default function Carousel(props) {
       if (!shouldCancel && images && images.length > 0) {
          setImages(
           images.map(url => ({
-            original: `${url}=w512`,
-            thumbnail: `${url}=w150`
+            original: `${url}`,
+            thumbnail: `${url}`
           }))
         );
       }
